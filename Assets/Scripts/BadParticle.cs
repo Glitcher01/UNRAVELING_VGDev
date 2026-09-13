@@ -56,18 +56,14 @@ public class BadParticle : MonoBehaviour
     //Called by BadParticleManager when this one is chosen
     public void Attack(Transform target)
     {
-        attackTarget = target;
-        currentSpeed = attackSpeed;
+        // offset only left/right 
+        float side = Random.Range(-attackOffsetRange, attackOffsetRange);
+        attackOffset = playerHead.right * side;
 
-        attackOffset = new Vector3(
-            Random.Range(-attackOffsetRange, attackOffsetRange),
-            Random.Range(-attackOffsetRange, attackOffsetRange),
-            Random.Range(-attackOffsetRange, attackOffsetRange)
-        );
-        attackStart = transform.position;   // where we launched from
-        attackPoint = target.position;      // lock the target NOW (this is the dodge fix)
+        attackStart = transform.position;
+        attackPoint = target.position + attackOffset;   // locked, offset to a side
         attackTime = 0f;
-        attackTarget = target;              // flag: we're attacking
+        attackTarget = target;
     }
 
     void Update()
@@ -82,28 +78,17 @@ public class BadParticle : MonoBehaviour
     {
         attackTime += Time.deltaTime;
 
-        transform.position = Vector3.MoveTowards(
-            transform.position,
-            attackTarget.position + attackOffset,
-            currentSpeed * Time.deltaTime
-        );
-        // ask the plugged-in variant where we should be
+        // ask the plugged-in variant where we should be (flies toward the offset target)
         transform.position = movement.GetPosition(attackStart, attackPoint, attackTime);
 
-        // reached the locked target point?
         if (Vector3.Distance(transform.position, attackPoint) <= attackDistance)
         {
-            // hit test against the player's ACTUAL head (they may have leaned away)
             isHit = Vector3.Distance(transform.position, playerHead.position) <= hitRadius;
 
             if (isHit)
             {
                 Debug.Log("HIT");
-
-                if (paranoia != null)
-                {
-                    paranoia.Add(paranoiaIncrease);
-                }
+                if (paranoia != null) paranoia.Add(paranoiaIncrease);
             }
             else
             {
@@ -116,9 +101,19 @@ public class BadParticle : MonoBehaviour
     void StopAttacking()
     {
         attackTarget = null;
-        driftPos = transform.position;
         velocity = Vector3.zero;
-        PickNewTargetPosition();
+
+        // teleport to a fresh random spot inside the room, then drift from there
+        Bounds b = roomBounds.bounds;
+        Vector3 respawnPos = new Vector3(
+            Random.Range(b.min.x + padding, b.max.x - padding),
+            Random.Range(b.min.y + padding, b.max.y - padding),
+            Random.Range(b.min.z + padding, b.max.z - padding)
+        );
+
+        transform.position = respawnPos;   // actually move it there
+        driftPos = respawnPos;             // drift starts from here
+        PickNewTargetPosition();           // pick where to drift toward next
     }
 
     void Drift()
