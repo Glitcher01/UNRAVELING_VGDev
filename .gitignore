@@ -56,3 +56,15 @@ MemoryCaptures/
 # If the source bank files are kept outside of the StreamingAssets folder then these can be ignored.
 # Log files can be ignored.
 fmod_editor.log
+
+# FMOD Studio local cache, user settings, and recovery files.
+/FMOD/unraveling master/.cache/
+/FMOD/unraveling master/.user/
+/FMOD/unraveling master/.unsaved/
+/FMOD/unraveling master/.restore/
+/FMOD/unraveling master/.recycle/
+/FMOD/unraveling master/.user.vc/
+
+# FMOD profiler recordings. Keep all other project Metadata and source Assets.
+/FMOD/unraveling master/Metadata/ProfilerSession/
+# Generated banks are already excluded by the Build/ rule above.
