@@ -58,12 +58,12 @@ MemoryCaptures/
 fmod_editor.log
 
 # FMOD Studio local cache, user settings, and recovery files.
-/FMOD/unraveling master/.cache/
-/FMOD/unraveling master/.user/
-/FMOD/unraveling master/.unsaved/
-/FMOD/unraveling master/.restore/
-/FMOD/unraveling master/.recycle/
-/FMOD/unraveling master/.user.vc/
+/FMOD/unraveling fmod master/.cache/
+/FMOD/unraveling fmod master/.user/
+/FMOD/unraveling fmod master/.unsaved/
+/FMOD/unraveling fmod master/.restore/
+/FMOD/unraveling fmod master/.recycle/
+/FMOD/unraveling fmod master/.user.vc/
 
 # FMOD profiler recordings. Keep all other project Metadata and source Assets.
 /FMOD/unraveling master/Metadata/ProfilerSession/
