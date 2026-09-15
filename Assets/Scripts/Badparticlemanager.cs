@@ -75,7 +75,7 @@ public class Badparticlemanager : MonoBehaviour
             cooldown = 0;
             minAttackDelay = 0;
             maxAttackDelay = 0;
-        } else {
+        } else if (stage != 1) {
             if (minAttackDelay != 0) {
                 minAttackDelay -= 1;
             }
