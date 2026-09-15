@@ -32,7 +32,7 @@ public class RoomStretch : MonoBehaviour
         for (int i = 0; i < objectsToStretch.Length; i++)
             baseZ[i] = objectsToStretch[i].position.z;
         
-        // remember walls start, scaling, and length
+        // remember walls start, scaling (which should always be 100 but just in case), and length
         wallsBaseZ = new float[wallsToStretch.Length];
         wallsBaseScale = new float[wallsToStretch.Length];
         wallsBaseLength = new float[wallsToStretch.Length];
@@ -44,7 +44,7 @@ public class RoomStretch : MonoBehaviour
             wallsBaseLength[i] = r.bounds.size.z;     
         }
 
-        // remember prop objects fractional offset and scale
+        // remember prop objects fractional offset relative to room and starting scale
         wallFace = wallsBaseZ[0] - wallsBaseLength[0] * 0.5f;
         propObjectOffset = new float[proportionalObjectsStretch.Length];
         propObjectBaseScale = new float[proportionalObjectsStretch.Length];
@@ -74,7 +74,7 @@ public class RoomStretch : MonoBehaviour
     {
         for (int i = 0; i < objectsToStretch.Length; i++)
         {
-            if (proportionalObjectsStretch.Contains(objectsToStretch[i])) continue;
+            if (proportionalObjectsStretch.Contains(objectsToStretch[i])) continue; // skip if needs to be stretched proportionally
             Vector3 p = objectsToStretch[i].position;
             float goalZ = baseZ[i] + targetOffset;   // each object's own base + the shared offset
             p.z = Mathf.Lerp(p.z, goalZ, Time.deltaTime * stretchSpeed);
@@ -86,8 +86,9 @@ public class RoomStretch : MonoBehaviour
         for (int i = 0; i < wallsToStretch.Length; i++) {
             Transform walls = wallsToStretch[i];
             wallsGoalLength = wallsBaseLength[i] + targetOffset;
-            float wallsGoalScale = wallsBaseScale[i] * (wallsGoalLength / wallsBaseLength[i]);
-            float wallsGoalPos = wallsBaseZ[i] + targetOffset * 0.5f;
+            float wallsGoalScale = wallsBaseScale[i] * (wallsGoalLength / wallsBaseLength[i]); // how much to scale by   
+            float wallsGoalPos = wallsBaseZ[i] + targetOffset * 0.5f; // how much to move since scaling increases 
+                                                                      // length on both sides (and we want to keep back wall anchored)
 
             Vector3 s = walls.localScale;
             s.y = Mathf.Lerp(s.y, wallsGoalScale, Time.deltaTime * stretchSpeed);
@@ -102,8 +103,8 @@ public class RoomStretch : MonoBehaviour
         for (int i = 0; i < proportionalObjectsStretch.Length; i++) {
             Transform propObj = proportionalObjectsStretch[i];
 
-            float goalZ = wallFace + propObjectOffset[i] * wallsGoalLength;
-            float goalScale = propObjectBaseScale[i] * (wallsGoalLength / wallsBaseLength[0]);
+            float goalZ = wallFace + propObjectOffset[i] * wallsGoalLength; // how much to move
+            float goalScale = propObjectBaseScale[i] * (wallsGoalLength / wallsBaseLength[0]); // how much to scale
 
             Vector3 s = propObj.localScale;
             s.y = Mathf.Lerp(s.y, goalScale, Time.deltaTime * stretchSpeed);
