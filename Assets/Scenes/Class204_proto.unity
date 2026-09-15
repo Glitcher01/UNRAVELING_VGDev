@@ -879,7 +879,7 @@ MonoBehaviour:
   - {fileID: 1117998825}
   - {fileID: 907193417}
   - {fileID: 444446479}
-  stretchPerStage: 8
+  stretchPerStage: 4
   stretchSpeed: 0.5
   wallsToStretch:
   - {fileID: 6534745838911721984}
@@ -905,6 +905,8 @@ MonoBehaviour:
   - {fileID: 3172177817234411977}
   - {fileID: 1051090476893246145}
   - {fileID: 5294173745254050116}
+  - {fileID: 8024160800657898229}
+  - {fileID: 1204223023}
 --- !u!4 &624319156
 Transform:
   m_ObjectHideFlags: 0
@@ -2612,6 +2614,11 @@ Transform:
 --- !u!4 &7855841037889907444 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -1367530999400259480, guid: 85ea9babcbe5a4ccab95dd66001f2db5, type: 3}
+  m_PrefabInstance: {fileID: 2050263708}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8024160800657898229 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -1199211238242422679, guid: 85ea9babcbe5a4ccab95dd66001f2db5, type: 3}
   m_PrefabInstance: {fileID: 2050263708}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &8494251014404642905 stripped
