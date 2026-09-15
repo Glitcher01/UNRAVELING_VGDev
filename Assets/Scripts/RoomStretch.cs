@@ -16,7 +16,14 @@ public class RoomStretch : MonoBehaviour
     public Transform[] wallsToStretch;
     private float[] wallsBaseZ;
     private float[] wallsBaseScale;
-    private float[] wallsBaseLength;          
+    private float[] wallsBaseLength;     
+
+    // vars needed for windows (and the big paper)
+    public Transform[] windowsToStretch;
+    private float[] windowsOffset;
+    private float[] windowsBaseScale;    
+    private float wallFace; 
+    
 
     void Start()
     {
@@ -26,7 +33,6 @@ public class RoomStretch : MonoBehaviour
             baseZ[i] = objectsToStretch[i].position.z;
         
         // remember walls start, scaling, and length
-        
         wallsBaseZ = new float[wallsToStretch.Length];
         wallsBaseScale = new float[wallsToStretch.Length];
         wallsBaseLength = new float[wallsToStretch.Length];
@@ -36,6 +42,17 @@ public class RoomStretch : MonoBehaviour
             wallsBaseScale[i] = walls.localScale.y;
             Renderer r = walls.GetComponent<Renderer>();
             wallsBaseLength[i] = r.bounds.size.z;     
+        }
+
+        // remember windows fractional offset and scale
+        wallFace = wallsBaseZ[0] - wallsBaseLength[0] * 0.5f;
+        windowsOffset = new float[windowsToStretch.Length];
+        windowsBaseScale = new float[windowsToStretch.Length];
+
+        for (int i = 0; i < windowsToStretch.Length; i++)
+        {
+            windowsOffset[i] = (windowsToStretch[i].position.z - wallFace) / wallsBaseLength[0];
+            windowsBaseScale[i] = windowsToStretch[i].localScale.y;
         }
 
         targetOffset = 0f;
@@ -65,9 +82,10 @@ public class RoomStretch : MonoBehaviour
         }
 
         // for stretching wall
+        float wallsGoalLength = 0;
         for (int i = 0; i < wallsToStretch.Length; i++) {
             Transform walls = wallsToStretch[i];
-            float wallsGoalLength = wallsBaseLength[i] + targetOffset;
+            wallsGoalLength = wallsBaseLength[i] + targetOffset;
             float wallsGoalScale = wallsBaseScale[i] * (wallsGoalLength / wallsBaseLength[i]);
             float wallsGoalPos = wallsBaseZ[i] + targetOffset * 0.5f;
 
@@ -78,6 +96,22 @@ public class RoomStretch : MonoBehaviour
             Vector3 p_walls = walls.position;
             p_walls.z = Mathf.Lerp(p_walls.z, wallsGoalPos, Time.deltaTime * stretchSpeed);
             walls.position = p_walls;
+        }
+
+        // for stretching windows
+        for (int i = 0; i < windowsToStretch.Length; i++) {
+            Transform window = windowsToStretch[i];
+
+            float windowGoalZ = wallFace + windowsOffset[i] * wallsGoalLength;
+            float windowGoalScale = windowsBaseScale[i] * (wallsGoalLength / wallsBaseLength[0]);
+
+            Vector3 s = window.localScale;
+            s.y = Mathf.Lerp(s.y, windowGoalScale, Time.deltaTime * stretchSpeed);
+            window.localScale = s;
+
+            Vector3 p = window.position;
+            p.z = Mathf.Lerp(p.z, windowGoalZ, Time.deltaTime * stretchSpeed);
+            window.position = p;
         }
     }
 }
