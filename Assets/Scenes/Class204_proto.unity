@@ -884,10 +884,27 @@ MonoBehaviour:
   wallsToStretch:
   - {fileID: 6534745838911721984}
   - {fileID: 1656874081}
-  windowsToStretch:
-  - {fileID: 8024160800657898229}
+  proportionalObjectsStretch:
+  - {fileID: 1120250621938778363}
+  - {fileID: 3194643782965911430}
+  - {fileID: 3092923551337735263}
+  - {fileID: 8494251014404642905}
+  - {fileID: 715841817449871705}
+  - {fileID: 3280282832976584933}
+  - {fileID: 3213450642933845078}
+  - {fileID: 444446479}
+  - {fileID: 831156918138331121}
+  - {fileID: 893800928212020893}
+  - {fileID: 4294760646322538405}
+  - {fileID: 4049815103109380307}
+  - {fileID: 2070942768898754886}
+  - {fileID: 5568993426244850753}
+  - {fileID: 7855841037889907444}
+  - {fileID: 5738850387400883153}
+  - {fileID: 8857485611376624381}
   - {fileID: 3172177817234411977}
-  - {fileID: 1204223023}
+  - {fileID: 1051090476893246145}
+  - {fileID: 5294173745254050116}
 --- !u!4 &624319156
 Transform:
   m_ObjectHideFlags: 0
@@ -1484,7 +1501,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65496c77ec9c08143825adc94e9fd4b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelClock
-  stage1Duration: 5
+  stage1Duration: 10
   stage2Duration: 5
   stage3Duration: 5
   staredownDuration: 20
@@ -2595,11 +2612,6 @@ Transform:
 --- !u!4 &7855841037889907444 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -1367530999400259480, guid: 85ea9babcbe5a4ccab95dd66001f2db5, type: 3}
-  m_PrefabInstance: {fileID: 2050263708}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &8024160800657898229 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -1199211238242422679, guid: 85ea9babcbe5a4ccab95dd66001f2db5, type: 3}
   m_PrefabInstance: {fileID: 2050263708}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &8494251014404642905 stripped
