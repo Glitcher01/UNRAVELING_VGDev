@@ -908,7 +908,7 @@ MonoBehaviour:
   - {fileID: 790476371}
   - {fileID: 702504228}
   - {fileID: 873873533}
-  stretchPerStage: 1
+  stretchPerStage: 5
   stretchSpeed: 0.5
 --- !u!4 &624319156
 Transform:
