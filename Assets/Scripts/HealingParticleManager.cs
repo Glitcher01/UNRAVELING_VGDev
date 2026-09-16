@@ -11,7 +11,6 @@ public class HealingParticleManager : MonoBehaviour
 
     public GameObject healingParticle;
     public Transform target;
-    public SuspicionMeter suspicionMeter;
 
     public float minSpawnDelay = 8f;
     public float maxSpawnDelay = 12f;
@@ -65,7 +64,6 @@ public class HealingParticleManager : MonoBehaviour
 
             HealingParticle healingParticleScript = newHealingParticle.GetComponent<HealingParticle>();
             healingParticleScript.SetTarget(target);
-            healingParticleScript.suspicion = suspicionMeter;
         }
     }
 }

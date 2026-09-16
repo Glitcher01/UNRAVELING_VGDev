@@ -21,18 +21,17 @@ public class HealingParticle : MonoBehaviour
     public float moveSpeed = 3f;
     public float decayRadius = 3f;
     public float deathRadius = 0.5f;
+    public float curveAmplitude = 0.5f;
     private float timer = 0;
     private bool inDecayZone = false;
     private Vector3 originalScale;
 
     // targeting slop
-    public float maxDistFromTarget = 3f;
     private Transform attackTarget;
     private float curvingPeriod = 0;
     private Vector3 curvingVector;
 
     // book catching stuff
-    public SuspicionMeter suspicion;
     public float decreaseAmount = 10f;
     public float suckSpeed = 12f;
     private bool caught = false;
@@ -96,7 +95,7 @@ public class HealingParticle : MonoBehaviour
                 timer = 0;
             }
             position = Vector3.MoveTowards(position, attackTarget.position, moveSpeed * Time.deltaTime);
-            transform.position = position + curvingVector * Mathf.Sin(curvingPeriod * timer);
+            transform.position = position + curvingVector * Mathf.Sin(curvingPeriod * timer) * curveAmplitude;
 
             float distance = Vector3.Distance(position, attackTarget.position);
 
