@@ -13,12 +13,11 @@ public class Badparticlemanager : MonoBehaviour
 
     //how many particles 'live'
     public int particleCount = 4;
-    // How many attackers may exist at once
+    // How many attackers may attack at once
     public int attackerCount {get; private set;} = 1;
     // Delay between sending attackers during an individual attack run
-    // TODO: Make a range of min to max following uniform or normal dist
-    // TODO: Make the attack delay and cooldown go down with game stage
-    public float attackerDelay = 0.5f;
+    public float minDelayBetweenAttackers = 0.5f;
+    public float maxDelayBetweenAttackers = 1.5f;
 
     //attack timing
     public float minAttackDelay = 3f;
@@ -126,7 +125,9 @@ public class Badparticlemanager : MonoBehaviour
             }
             attacker.Attack(playerHead);
             if (n > 1 && i < n - 1)
-                yield return new WaitForSeconds(attackerDelay);
+                yield return new WaitForSeconds(
+                    Random.Range(minDelayBetweenAttackers, maxDelayBetweenAttackers)
+                );
         }
     }
     
