@@ -163,7 +163,7 @@ GameObject:
   - component: {fileID: 76611494}
   - component: {fileID: 76611496}
   m_Layer: 0
-  m_Name: mangaer
+  m_Name: manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -186,6 +186,7 @@ MonoBehaviour:
   teacher: {fileID: 2057058723}
   roomBounds: {fileID: 428869482}
   particleCount: 4
+  attackerDelay: 0.5
   minAttackDelay: 3
   maxAttackDelay: 8
   cooldown: 2
