@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-8683793347638099199
+--- !u!114 &-2460051045982834206
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ParanoiaVFXFeature
   m_EditorClassIdentifier: Assembly-CSharp::ParanoiaVFXFeature
   m_Active: 1
-  material: {fileID: 2100000, guid: 6eb5fbdb86060be42aee8a0db3aa4b12, type: 2}
+  material: {fileID: 0}
   injectionPoint: 600
   tension: 0.3
   aberration:
@@ -58,8 +58,8 @@ MonoBehaviour:
     fullyIn: 1
     outputFloor: 0
     outputCeiling: 1
-  breathRate: 3
-  breathRatePerTension: 5
+  breathRate: 1.2
+  breathRatePerTension: 3.2
   ghostInterval: 0.12
   ghostTaps: 3
   ghostFalloff: 0.65
@@ -90,8 +90,8 @@ MonoBehaviour:
     probeVolumeBlendStatesCS: {fileID: 7200000, guid: b9a23f869c4fd45f19c5ada54dd82176, type: 3}
   m_RendererFeatures:
   - {fileID: 7833122117494664109}
-  - {fileID: -8683793347638099199}
-  m_RendererFeatureMap: ad6b866f10d7b46c01832183f5f77c87
+  - {fileID: -2460051045982834206}
+  m_RendererFeatureMap: ad6b866f10d7b46ce271dd8a9b24dcdd
   m_UseNativeRenderPass: 1
   xrSystemData: {fileID: 0}
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
