@@ -37,6 +37,38 @@ public class HealingParticle : MonoBehaviour
     private bool caught = false;
     private float suckTime = 0f;
 
+    public bool IsCaught => caught;
+    public event System.Action<HealingParticle> Caught;
+    public static event System.Action<HealingParticle> Unregistered;
+
+    void OnDisable()
+    {
+        Unregistered?.Invoke(this);
+    }
+
+    public bool TryCatch(Transform catchTarget, ParanoiaMeter meter)
+    {
+        if (meter == null || !BeginCatch(catchTarget)) return false;
+        meter.Add(-Mathf.Max(0f, decreaseAmount));
+        Caught?.Invoke(this);
+        return true;
+    }
+
+    // pull the letter in from where it is now so it doesn't jump back
+    bool BeginCatch(Transform catchTarget)
+    {
+        if (caught || !isActiveAndEnabled || catchTarget == null) return false;
+        caught = true;
+        position = transform.position;
+        originalScale = transform.localScale;
+        attackTarget = catchTarget;
+        timer = 0f;
+        suckTime = Mathf.Max(0.01f, Vector3.Distance(position, attackTarget.position)
+            / Mathf.Max(0.01f, suckSpeed));
+        foreach (Collider col in GetComponentsInChildren<Collider>()) col.enabled = false;
+        return true;
+    }
+
     public void SetTarget(Transform target)
     {
         attackTarget = target;
@@ -44,6 +76,7 @@ public class HealingParticle : MonoBehaviour
 
     void Start()
     {
+        if (caught) return;
         position = transform.position;
         bobOffset = new Vector3(Random.Range(0f, Mathf.PI * 2f),Random.Range(0f, Mathf.PI * 2f),Random.Range(0f, Mathf.PI * 2f));
         idleTime = Random.Range(minIdleTime, maxIdleTime);
@@ -57,18 +90,27 @@ public class HealingParticle : MonoBehaviour
 
     public void OnAttack(Transform newTarget)
     {
-        if (inDecayZone) caught = true;
-        attackTarget = newTarget;
-        originalScale = transform.localScale;
-        timer = 0;
-        suckTime = Vector3.Distance(position, attackTarget.position)/suckSpeed;
+        if (inDecayZone) BeginCatch(newTarget);
     }
 
     void Update()
     {
         timer += Time.deltaTime;
 
-        if (timer < idleTime && !onAttack) // Idle State
+        // once caught, go straight into the book instead of going back to floating around
+        if (caught)
+        {
+            if (attackTarget == null) { Destroy(gameObject); return; }
+            position = Vector3.MoveTowards(position, attackTarget.position,
+                Mathf.Max(0.01f, suckSpeed) * Time.deltaTime);
+            transform.position = position;
+            transform.localScale = Vector3.Lerp(originalScale, Vector3.zero, timer / suckTime);
+            if (timer >= suckTime) Destroy(gameObject);
+            return;
+        }
+        if (attackTarget == null) return;
+
+        if (timer < idleTime && !onAttack) // floating around
         {
             float bobX = Mathf.Sin(timer * bobFrequency + bobOffset.x) * amplitudes.x;
             float bobY = Mathf.Sin(3 * timer * bobFrequency + bobOffset.y) * amplitudes.y;
@@ -76,7 +118,7 @@ public class HealingParticle : MonoBehaviour
 
             transform.position = position + new Vector3(bobX, bobY, bobZ);
         }
-        else if (!caught)// Moving State
+        else // heading toward the player
         {
             if (!onAttack)
             {
@@ -85,6 +127,7 @@ public class HealingParticle : MonoBehaviour
                 Vector3 targetDirection = (attackTarget.position - transform.position).normalized;
             
                 // curvy stuff
+                if (targetDirection == Vector3.zero) { Destroy(gameObject); return; }
                 Vector3 p = Vector3.zero;
                 while (p == Vector3.zero)
                 {
@@ -112,13 +155,6 @@ public class HealingParticle : MonoBehaviour
 
                 if (!inDecayZone) inDecayZone = true;
             }
-        }
-        else
-        {
-            position = Vector3.MoveTowards(position, attackTarget.position, suckSpeed * Time.deltaTime);
-            transform.position = position;
-            transform.localScale = Vector3.Lerp(originalScale, Vector3.zero, timer/suckTime);
-            if (timer >= suckTime) Destroy(gameObject);
         }
     }
 }
