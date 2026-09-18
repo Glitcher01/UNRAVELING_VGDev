@@ -397,12 +397,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   skillCheckSettings:
+    spinnerSpeed: 1
     spinnerMult: 1.1
   canvasPosition: {x: 100, y: 0}
   backgroundRT: {fileID: 1277956937}
   zoneRT: {fileID: 1016179653}
   spinnerRT: {fileID: 1267345395}
-  spinnerSpeed: 2
   radiusOffSet: -0.5
 --- !u!1 &1114399852
 GameObject:

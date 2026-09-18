@@ -5,18 +5,18 @@ using UnityEngine.UI;
 [System.Serializable]
 public class SkillCheckSettings
 {
+    public float spinnerSpeed;
     public float spinnerMult = 1.1f;
 }
 
 public class SkillCheckHandler : MonoBehaviour
 {
     [SerializeField] private SkillCheckSettings skillCheckSettings;
-    [Header("State")]
+    [Header("Objects")]
     [SerializeField] protected Vector2 canvasPosition;
     [SerializeField] protected RectTransform backgroundRT;
     [SerializeField] protected RectTransform zoneRT;
     [SerializeField] protected RectTransform spinnerRT;
-    [SerializeField] protected float spinnerSpeed;
     [SerializeField] protected float radiusOffSet;
     RectTransform rt;
     Material mat;
@@ -76,7 +76,7 @@ public class SkillCheckHandler : MonoBehaviour
 
         spinnerRT.anchoredPosition = radius * new Vector2(Mathf.Cos(position), Mathf.Sin(position));
         spinnerRT.rotation = Quaternion.Euler(0, 0, (float)(position * 180 / Math.PI));
-        position += (forward ? 1 : -1) * spinnerSpeed * Time.deltaTime;
+        position += (forward ? 1 : -1) * skillCheckSettings.spinnerSpeed * Time.deltaTime;
         position = (position + Mathf.PI * 2) % (Mathf.PI * 2);
 
         int minID = Shader.PropertyToID("_minAngle");
@@ -88,7 +88,7 @@ public class SkillCheckHandler : MonoBehaviour
     private void generateSkillZone()
     {
         forward = !forward;
-        spinnerSpeed *= skillCheckSettings.spinnerMult;
+        skillCheckSettings.spinnerSpeed *= skillCheckSettings.spinnerMult;
         currentMin = rng.NextInt(360);
         currentMax = (currentMin + 30 + 360) % 360;
     }
