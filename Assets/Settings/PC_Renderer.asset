@@ -1,5 +1,69 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-4301799368498767008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: ParanoiaVFXFeature
+  m_EditorClassIdentifier: Assembly-CSharp::ParanoiaVFXFeature
+  m_Active: 1
+  material: {fileID: 0}
+  injectionPoint: 600
+  tension: 0.3
+  aberration:
+    amount: 0.55
+    rampStarts: 0
+    fullyIn: 0.7
+    outputFloor: 0.2
+    outputCeiling: 1
+  warp:
+    amount: 0.35
+    rampStarts: 0.1
+    fullyIn: 0.8
+    outputFloor: 0.15
+    outputCeiling: 1
+  grain:
+    amount: 0.32
+    rampStarts: 0
+    fullyIn: 0.6
+    outputFloor: 0.15
+    outputCeiling: 1
+  desat:
+    amount: 0.55
+    rampStarts: 0
+    fullyIn: 1
+    outputFloor: 0.2
+    outputCeiling: 1
+  cast:
+    amount: 0.4
+    rampStarts: 0
+    fullyIn: 1
+    outputFloor: 0
+    outputCeiling: 1
+  vignette:
+    amount: 0.7
+    rampStarts: 0
+    fullyIn: 1
+    outputFloor: 0.2
+    outputCeiling: 1
+  ghost:
+    amount: 0.3
+    rampStarts: 0.7
+    fullyIn: 1
+    outputFloor: 0
+    outputCeiling: 1
+  breathRate: 1.2
+  breathRatePerTension: 3.2
+  ghostInterval: 0.12
+  ghostTaps: 3
+  ghostFalloff: 0.65
+  ghostDownsample: 2
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25,8 +89,9 @@ MonoBehaviour:
     probeSamplingDebugTexture: {fileID: 2800000, guid: 24ec0e140fb444a44ab96ee80844e18e, type: 3}
     probeVolumeBlendStatesCS: {fileID: 7200000, guid: b9a23f869c4fd45f19c5ada54dd82176, type: 3}
   m_RendererFeatures:
+  - {fileID: -4301799368498767008}
   - {fileID: 7833122117494664109}
-  m_RendererFeatureMap: ad6b866f10d7b46c
+  m_RendererFeatureMap: 609ba12944f04cc4ad6b866f10d7b46c
   m_UseNativeRenderPass: 1
   xrSystemData: {fileID: 0}
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
