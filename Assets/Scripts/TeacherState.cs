@@ -3,8 +3,37 @@ using System.Collections;
 
 public class TeacherState : MonoBehaviour
 {
+    public enum State
+    {
+        FacingBoard = 0,
+        TurningToPlayer = 1,
+        FacingPlayer = 2,
+        TurningToBoard = 3,
+        WalkingToPlayer = 4,
+        InFrontOfPlayer = 5,
+    }
+    
     public Animator animator;
-    public bool isFacingBoard = true;
+    public State state;
+    public bool isFacingPlayer
+    {
+        get
+        {
+            switch (state)
+            {
+                case State.FacingPlayer:
+                case State.WalkingToPlayer:
+                case State.InFrontOfPlayer: 
+                    return true;
+                case State.FacingBoard:
+                case State.TurningToPlayer:
+                case State.TurningToBoard:
+                default:
+                    return false;
+            }
+        }
+    }
+
 
     [Header("Turning")]
     public float turnDuration = 1.5f;
@@ -53,14 +82,15 @@ public class TeacherState : MonoBehaviour
         {
             levelComplete = true;
             StopAllCoroutines();
-            transform.rotation = Quaternion.Euler(0f, facePlayerAngle, 0f);
-            animator.SetInteger("State", 4);
             StartCoroutine(WalkToPlayer());
         }
     }
 
     IEnumerator WalkToPlayer()
     {
+        ChangeState(State.WalkingToPlayer);
+        transform.rotation = Quaternion.Euler(0f, facePlayerAngle, 0f);
+        
         float startY = transform.position.y;
         float elapsed = 0f;
  
@@ -94,15 +124,14 @@ public class TeacherState : MonoBehaviour
  
             yield return null;
         }
-        animator.SetInteger("State", 5);
+        ChangeState(State.InFrontOfPlayer);
     }
 
     IEnumerator TurnAround()
     {
         while (!levelComplete)
         {
-            animator.SetInteger("State", 0);
-            isFacingBoard = true;
+            ChangeState(State.FacingBoard);
 
             yield return new WaitForSeconds(
                 Random.Range(minBoardTime, maxBoardTime)
@@ -111,8 +140,7 @@ public class TeacherState : MonoBehaviour
             if (levelComplete)
                 yield break;
 
-            isFacingBoard = false;
-            animator.SetInteger("State", 1);
+            ChangeState(State.TurningToPlayer);
 
             yield return RotateOver(
                 Quaternion.Euler(0f, 270f, 0f)
@@ -121,7 +149,7 @@ public class TeacherState : MonoBehaviour
             if (levelComplete)
                 yield break;
 
-            animator.SetInteger("State", 2);
+            ChangeState(State.FacingPlayer);
 
             yield return new WaitForSeconds(
                 Random.Range(minClassTime, maxClassTime)
@@ -130,12 +158,18 @@ public class TeacherState : MonoBehaviour
             if (levelComplete)
                 yield break;
 
-            animator.SetInteger("State", 3);
+            ChangeState(State.TurningToBoard);
 
             yield return RotateOver(
                 Quaternion.Euler(0f, 90f, 0f)
             );
         }
+    }
+
+    void ChangeState(State state)
+    {
+        animator.SetInteger("State", (int)state);
+        this.state = state;
     }
 
     IEnumerator RotateOver(Quaternion target)

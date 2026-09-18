@@ -366,10 +366,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.CanvasScaler
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -413,6 +413,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1530475374}
+  - {fileID: 1334577147}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1369,6 +1370,105 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -1367530999400259480, guid: 85ea9babcbe5a4ccab95dd66001f2db5, type: 3}
   m_PrefabInstance: {fileID: 2050263708}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &495024083
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 495024084}
+  - component: {fileID: 495024087}
+  - component: {fileID: 495024086}
+  - component: {fileID: 495024085}
+  m_Layer: 5
+  m_Name: ParanoiaUIOverlay
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &495024084
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 495024083}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1334577147}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 150, y: 150}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &495024085
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 495024083}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8311b9adf61d91d4284f2f4da10e6d83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ParanoiaUI
+  baseImage: {fileID: 1334577149}
+  overlayImage: {fileID: 495024086}
+  paranoiaMeter: {fileID: 1514480553}
+  paranoiaSprites:
+  - {fileID: 21300000, guid: 01efc5609142c8148b820099432d1196, type: 3}
+  - {fileID: 21300000, guid: c82ccaeade2a4624c96893b49af8ef23, type: 3}
+  - {fileID: 21300000, guid: 06476c0690e3dd74fb4ab7f9935e87fa, type: 3}
+  - {fileID: 21300000, guid: 5317a2d7632ff484796830d99700da4d, type: 3}
+  - {fileID: 21300000, guid: 83ef8755e14e67c44a45fc51597f4671, type: 3}
+  - {fileID: 21300000, guid: 286af567d9aa3104ab7df3d3c3124a58, type: 3}
+  - {fileID: 21300000, guid: c78fbdc41ce365b4e80f9ad2e7b4adaf, type: 3}
+--- !u!114 &495024086
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 495024083}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &495024087
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 495024083}
+  m_CullTransparentMesh: 1
 --- !u!1 &529729675
 GameObject:
   m_ObjectHideFlags: 0
@@ -2131,9 +2231,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65496c77ec9c08143825adc94e9fd4b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelClock
-  stage1Duration: 10
-  stage2Duration: 10
-  stage3Duration: 10
+  stage1Duration: 20
+  stage2Duration: 20
+  stage3Duration: 20
   staredownDuration: 20
 --- !u!4 &984068095
 Transform:
@@ -2656,6 +2756,106 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -1199211238242422679, guid: 85ea9babcbe5a4ccab95dd66001f2db5, type: 3}
   m_PrefabInstance: {fileID: 2050263708}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1334577146
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1334577147}
+  - component: {fileID: 1334577150}
+  - component: {fileID: 1334577149}
+  - component: {fileID: 1334577148}
+  m_Layer: 5
+  m_Name: ParanoiaUIBase
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1334577147
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1334577146}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 495024084}
+  m_Father: {fileID: 126060210}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 200, y: -150}
+  m_SizeDelta: {x: 150, y: 150}
+  m_Pivot: {x: 0, y: 1}
+--- !u!114 &1334577148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1334577146}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8311b9adf61d91d4284f2f4da10e6d83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ParanoiaUI
+  baseImage: {fileID: 1334577149}
+  overlayImage: {fileID: 495024086}
+  paranoiaMeter: {fileID: 1514480553}
+  paranoiaSprites:
+  - {fileID: 21300000, guid: 01efc5609142c8148b820099432d1196, type: 3}
+  - {fileID: 21300000, guid: c82ccaeade2a4624c96893b49af8ef23, type: 3}
+  - {fileID: 21300000, guid: 06476c0690e3dd74fb4ab7f9935e87fa, type: 3}
+  - {fileID: 21300000, guid: 5317a2d7632ff484796830d99700da4d, type: 3}
+  - {fileID: 21300000, guid: 83ef8755e14e67c44a45fc51597f4671, type: 3}
+  - {fileID: 21300000, guid: 286af567d9aa3104ab7df3d3c3124a58, type: 3}
+  - {fileID: 21300000, guid: c78fbdc41ce365b4e80f9ad2e7b4adaf, type: 3}
+--- !u!114 &1334577149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1334577146}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 01efc5609142c8148b820099432d1196, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1334577150
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1334577146}
+  m_CullTransparentMesh: 1
 --- !u!1 &1381566142
 GameObject:
   m_ObjectHideFlags: 0
@@ -2892,6 +3092,7 @@ MonoBehaviour:
   paranoiaLevel: 0
   maxParanoia: 200
   paranoiaText: {fileID: 763435374}
+  paranoiaUI: {fileID: 1334577148}
 --- !u!1 &1530475373
 GameObject:
   m_ObjectHideFlags: 0
