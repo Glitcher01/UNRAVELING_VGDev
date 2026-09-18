@@ -1,6 +1,7 @@
 using System;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -16,6 +17,7 @@ public class SkillCheckHandler : MonoBehaviour
     [SerializeField] protected float radiusOffSet;
 
     RectTransform rt;
+    Material mat;
     // Measured in radians, from 0 to 2pi.Also assumes that the radius is zoneRT's width / 2.
     float startingPosition = 0;
 
@@ -26,7 +28,7 @@ public class SkillCheckHandler : MonoBehaviour
         RectTransform zoneRT = zone.GetComponent<RectTransform>();
         RectTransform spinnerRT = spinner.GetComponent<RectTransform>();
 
-
+        mat = zoneRT.GetComponent<RawImage>().material;
 
         if (rt == null) {
             return;
@@ -34,14 +36,15 @@ public class SkillCheckHandler : MonoBehaviour
 
         rt.anchoredPosition =  canvasPosition;
 
-        
-
         if (backgroundRT == null || zoneRT == null || spinnerRT == null) {
             return;
         }
 
         backgroundRT.anchoredPosition = Vector2.zero;
         zoneRT.anchoredPosition = Vector2.zero;
+
+        int textureID = Shader.PropertyToID("_imageTexture");
+        mat.SetTexture(textureID, zone.GetComponent<RawImage>().texture);
     }
 
     private void Update()
@@ -54,5 +57,12 @@ public class SkillCheckHandler : MonoBehaviour
         spinnerRT.rotation = Quaternion.Euler(0, 0, (float)(startingPosition * 180 / Math.PI));
         startingPosition += spinnerSpeed * Time.deltaTime;
         startingPosition %= Mathf.PI * 2;
+
+
+        int minID = Shader.PropertyToID("_minAngle");
+        int maxID = Shader.PropertyToID("_maxAngle");
+        
+        mat.SetFloat(minID, 45);
+        mat.SetFloat(maxID, 75);
     }
 }
