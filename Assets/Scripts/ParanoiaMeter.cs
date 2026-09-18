@@ -7,6 +7,8 @@ public class ParanoiaMeter : MonoBehaviour
     public float maxParanoia = 200f;
 
     public TextMeshProUGUI paranoiaText;   
+    
+    public ParanoiaUI paranoiaUI;
 
     public float Normalized => paranoiaLevel / maxParanoia;
 
@@ -16,6 +18,7 @@ public class ParanoiaMeter : MonoBehaviour
     {
         paranoiaLevel = Mathf.Clamp(paranoiaLevel + amount, 0f, maxParanoia);
         ParanoiaVFXFeature.SetTension(paranoiaLevel / maxParanoia);
+        paranoiaUI.UpdateParanoiaUI();
     }
 
     void Update()
