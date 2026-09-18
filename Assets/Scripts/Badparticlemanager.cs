@@ -6,7 +6,7 @@ using System.Linq;
 public class Badparticlemanager : MonoBehaviour
 {
     //references
-    public BadParticle particlePrefab;
+    public BadParticle[] particlePrefabs; 
     public Transform playerHead;
     public TeacherState teacher;
     public BoxCollider roomBounds;
@@ -38,7 +38,8 @@ public class Badparticlemanager : MonoBehaviour
                 Random.Range(b.min.z, b.max.z)
             );
             //particle appears poof
-            BadParticle newParticle = Instantiate(particlePrefab,spawnPosition,Quaternion.identity);
+            BadParticle prefabToSpawn = particlePrefabs[Random.Range(0, particlePrefabs.Length)];
+            BadParticle newParticle = Instantiate(prefabToSpawn, spawnPosition, Quaternion.identity);
             //remember the particle
             newParticle.roomBounds = roomBounds;
             newParticle.playerHead = playerHead;
@@ -75,6 +76,10 @@ public class Badparticlemanager : MonoBehaviour
             minAttackDelay = 0;
             maxAttackDelay = 0;
             SetAttackerCount(particleCount);
+        }
+        if (stage == 4) {  
+            StopAllCoroutines();  
+            return;
         } else if (stage != 1) {
             if (minAttackDelay != 0) {
                 minAttackDelay -= 1;
@@ -88,6 +93,7 @@ public class Badparticlemanager : MonoBehaviour
             SetAttackerCount(attackerCount + 1);
         }
     }
+
 
     void OnDisable()
     {
