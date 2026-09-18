@@ -2131,9 +2131,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65496c77ec9c08143825adc94e9fd4b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelClock
-  stage1Duration: 10
-  stage2Duration: 10
-  stage3Duration: 10
+  stage1Duration: 20
+  stage2Duration: 20
+  stage3Duration: 20
   staredownDuration: 20
 --- !u!4 &984068095
 Transform:
