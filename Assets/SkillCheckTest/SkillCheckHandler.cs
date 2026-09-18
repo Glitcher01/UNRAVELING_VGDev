@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -61,7 +62,7 @@ public class SkillCheckHandler : MonoBehaviour
 
         int minID = Shader.PropertyToID("_minAngle");
         int maxID = Shader.PropertyToID("_maxAngle");
-        
+
         mat.SetFloat(minID, 45);
         mat.SetFloat(maxID, 75);
     }
