@@ -1,8 +1,7 @@
 using System;
 using UnityEngine;
 
-public class AnimatorBookPresenter : MonoBehaviour, IBookPresenter
-{
+public class AnimatorBookPresenter : MonoBehaviour, IBookPresenter {
     public Animator bookAnimator;
     public Transform bookPose;
     public Renderer[] bookRenderers;
@@ -15,30 +14,45 @@ public class AnimatorBookPresenter : MonoBehaviour, IBookPresenter
     public event Action Closed;
     public event Action Stowed;
 
-    static readonly int OpenHash = Animator.StringToHash("Base Layer.Open");
-    static readonly int CloseHash = Animator.StringToHash("Base Layer.Close");
-    static readonly int HeldOpenHash = Animator.StringToHash("Base Layer.HeldOpen");
-    static readonly int HeldClosedHash = Animator.StringToHash("Base Layer.HeldClosed");
-    enum Motion { None, Drawing, Opening, Closing, Stowing }
-    Motion _motion;
-    Vector3 _start;
-    float _elapsed;
-    int _requestFrame;
-    bool _ready;
+    private static readonly int OpenHash = Animator.StringToHash("Base Layer.Open");
+    private static readonly int CloseHash = Animator.StringToHash("Base Layer.Close");
+    private static readonly int HeldOpenHash = Animator.StringToHash("Base Layer.HeldOpen");
+    private static readonly int HeldClosedHash = Animator.StringToHash("Base Layer.HeldClosed");
 
-    void OnEnable()
-    {
-        _ready = bookAnimator != null && bookPose != null && bookRenderers != null
-            && bookRenderers.Length > 0 && bookAnimator.runtimeAnimatorController != null;
-        if (_ready)
-            _ready = bookAnimator.HasState(0, OpenHash) && bookAnimator.HasState(0, CloseHash)
-                && bookAnimator.HasState(0, HeldOpenHash) && bookAnimator.HasState(0, HeldClosedHash);
-        if (!_ready)
-        {
+    private enum Motion {
+        None,
+        Drawing,
+        Opening,
+        Closing,
+        Stowing
+    }
+
+    private Motion _motion;
+    private Vector3 _startPosition;
+    private float _elapsedTime;
+    private int _motionStartedFrame;
+    private bool _isReady;
+
+    private void OnEnable() {
+        _isReady = bookAnimator != null
+            && bookPose != null
+            && bookRenderers != null
+            && bookRenderers.Length > 0
+            && bookAnimator.runtimeAnimatorController != null;
+
+        if (_isReady) {
+            _isReady = bookAnimator.HasState(0, OpenHash)
+                && bookAnimator.HasState(0, CloseHash)
+                && bookAnimator.HasState(0, HeldOpenHash)
+                && bookAnimator.HasState(0, HeldClosedHash);
+        }
+
+        if (!_isReady) {
             Debug.LogError("Book presenter needs its Animator, four book states, pose, and renderers.", this);
             enabled = false;
             return;
         }
+
         bookAnimator.applyRootMotion = false;
         bookAnimator.updateMode = AnimatorUpdateMode.Normal;
         bookAnimator.cullingMode = AnimatorCullingMode.AlwaysAnimate;
@@ -48,73 +62,96 @@ public class AnimatorBookPresenter : MonoBehaviour, IBookPresenter
         Show(false);
     }
 
-    void OnDisable()
-    {
+    private void OnDisable() {
         _motion = Motion.None;
-        if (bookPose != null) bookPose.localPosition = stowedPosition;
+        if (bookPose != null) {
+            bookPose.localPosition = stowedPosition;
+        }
+
         Show(false);
     }
 
-    void Show(bool visible)
-    {
-        if (bookRenderers == null) return;
-        foreach (var renderer in bookRenderers)
-            if (renderer != null) renderer.enabled = visible;
+    private void Show(bool visible) {
+        if (bookRenderers == null) {
+            return;
+        }
+
+        foreach (Renderer renderer in bookRenderers) {
+            if (renderer != null) {
+                renderer.enabled = visible;
+            }
+        }
     }
 
-    void Begin(Motion motion, int stateHash)
-    {
-        if (!_ready || !isActiveAndEnabled) return;
+    private void Begin(Motion motion, int stateHash) {
+        if (!_isReady || !isActiveAndEnabled) {
+            return;
+        }
+
         _motion = motion;
-        _requestFrame = Time.frameCount;
-        _start = bookPose.localPosition;
-        _elapsed = 0f;
-        if (stateHash != 0) bookAnimator.Play(stateHash, 0, 0f);
+        _motionStartedFrame = Time.frameCount;
+        _startPosition = bookPose.localPosition;
+        _elapsedTime = 0f;
+
+        if (stateHash != 0) {
+            bookAnimator.Play(stateHash, 0, 0f);
+        }
     }
 
-    public void Draw()
-    {
+    public void Draw() {
         Show(true);
         Begin(Motion.Drawing, OpenHash);
     }
 
-    public void Reopen() => Begin(Motion.Opening, OpenHash);
-    public void Close() => Begin(Motion.Closing, CloseHash);
-    public void Stow() => Begin(Motion.Stowing, 0);
-
-    bool Finished(int hash)
-    {
-        var state = bookAnimator.GetCurrentAnimatorStateInfo(0);
-        return Time.frameCount > _requestFrame && !bookAnimator.IsInTransition(0)
-            && state.fullPathHash == hash && state.normalizedTime >= 1f;
+    public void Reopen() {
+        Begin(Motion.Opening, OpenHash);
     }
 
-    void LateUpdate()
-    {
-        if (_motion == Motion.None || Time.timeScale <= 0f) return;
-        _elapsed += Time.deltaTime;
-        if (_motion == Motion.Drawing || _motion == Motion.Stowing)
-        {
-            float duration = _motion == Motion.Drawing ? drawDuration : stowDuration;
-            float t = duration <= 0f ? 1f : Mathf.Clamp01(_elapsed / duration);
-            bookPose.localPosition = Vector3.Lerp(_start,
-                _motion == Motion.Drawing ? heldPosition : stowedPosition, Mathf.SmoothStep(0f, 1f, t));
+    public void Close() {
+        Begin(Motion.Closing, CloseHash);
+    }
+
+    public void Stow() {
+        Begin(Motion.Stowing, 0);
+    }
+
+    private bool Finished(int hash) {
+        AnimatorStateInfo animationState = bookAnimator.GetCurrentAnimatorStateInfo(0);
+        return Time.frameCount > _motionStartedFrame
+            && !bookAnimator.IsInTransition(0)
+            && animationState.fullPathHash == hash
+            && animationState.normalizedTime >= 1f;
+    }
+
+    private void LateUpdate() {
+        if (_motion == Motion.None || Time.timeScale <= 0f) {
+            return;
         }
-        if (_motion == Motion.Stowing && _elapsed >= stowDuration)
-        {
+
+        _elapsedTime += Time.deltaTime;
+
+        if (_motion == Motion.Drawing || _motion == Motion.Stowing) {
+            float duration = _motion == Motion.Drawing ? drawDuration : stowDuration;
+            float progress = duration <= 0f ? 1f : Mathf.Clamp01(_elapsedTime / duration);
+            bookPose.localPosition = Vector3.Lerp(
+                _startPosition,
+                _motion == Motion.Drawing ? heldPosition : stowedPosition,
+                Mathf.SmoothStep(0f, 1f, progress));
+        }
+
+        if (_motion == Motion.Stowing && _elapsedTime >= stowDuration) {
             _motion = Motion.None;
             Show(false);
             Stowed?.Invoke();
         }
         else if ((_motion == Motion.Drawing || _motion == Motion.Opening)
-            && _elapsed >= (_motion == Motion.Drawing ? drawDuration : 0f) && Finished(OpenHash))
-        {
+            && _elapsedTime >= (_motion == Motion.Drawing ? drawDuration : 0f)
+            && Finished(OpenHash)) {
             _motion = Motion.None;
             bookAnimator.Play(HeldOpenHash, 0, 0f);
             Opened?.Invoke();
         }
-        else if (_motion == Motion.Closing && Finished(CloseHash))
-        {
+        else if (_motion == Motion.Closing && Finished(CloseHash)) {
             _motion = Motion.None;
             bookAnimator.Play(HeldClosedHash, 0, 0f);
             Closed?.Invoke();
