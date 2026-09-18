@@ -105,7 +105,7 @@ public class Badparticlemanager : MonoBehaviour
             yield return new WaitForSeconds(Random.Range(minAttackDelay, maxAttackDelay));
 
             //not attacking when teacher looking
-            while (teacher != null && !teacher.isFacingBoard){
+            while (teacher != null && teacher.isFacingPlayer){
                 yield return null;
             }
             BadParticle attacker = PickAttacker();
