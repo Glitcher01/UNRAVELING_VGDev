@@ -1005,7 +1005,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &374072866
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3067,11 +3067,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4865064391339405807, guid: 85ea9babcbe5a4ccab95dd66001f2db5, type: 3}
   m_PrefabInstance: {fileID: 2050263708}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &1816015510 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 6f85b4f59a29541c4b07118cb637242d, type: 3}
-  m_PrefabInstance: {fileID: 151088681}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1818480405 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -914210494071134940, guid: 85ea9babcbe5a4ccab95dd66001f2db5, type: 3}
@@ -3399,10 +3394,13 @@ MonoBehaviour:
   maxBoardTime: 11
   minClassTime: 4
   maxClassTime: 10
-  player: {fileID: 1816015510}
+  player: {fileID: 1514480549}
   facePlayerAngle: 270
   walkSpeed: 0.7
-  stopDistance: 0.5
+  stopDistance: 2
+  leftOffset: 0.2
+  stepDownAmount: 0.3
+  stepDownAfter: 1
 --- !u!136 &2057058724
 CapsuleCollider:
   m_ObjectHideFlags: 0

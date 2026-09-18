@@ -20,6 +20,9 @@ public class TeacherState : MonoBehaviour
     public float facePlayerAngle = 90f;
     public float walkSpeed = 1.5f;
     public float stopDistance = 2f;
+    public float leftOffset = 0.3f;    
+    public float stepDownAmount = 0.3f;  
+    public float stepDownAfter = 1f;
 
     private bool levelComplete = false;
 
@@ -58,16 +61,37 @@ public class TeacherState : MonoBehaviour
 
     IEnumerator WalkToPlayer()
     {
+        float startY = transform.position.y;
+        float elapsed = 0f;
+ 
+        Vector3 finalTarget = player.position + player.right * -leftOffset;
+ 
         while (true)
         {
-            Vector3 target = new Vector3(player.position.x, transform.position.y, player.position.z);
+            elapsed += Time.deltaTime;
+ 
+            Vector3 target = new Vector3(finalTarget.x, transform.position.y, finalTarget.z);
             float dist = Vector3.Distance(transform.position, target);
-
+ 
             if (dist <= stopDistance) break;
-
-            float speed = dist < 11f && dist > 3f ? walkSpeed * 4f : walkSpeed;
-
+ 
+            AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
+            float animTime = info.normalizedTime * info.length;
+ 
+            float speed = (animTime >= 190f / 24f && animTime <= 350f / 24f)
+                ? walkSpeed * 3.5f
+                : walkSpeed;
+ 
             transform.position = Vector3.MoveTowards(transform.position, target, speed * Time.deltaTime);
+ 
+            if (elapsed > stepDownAfter)
+            {
+                Vector3 p = transform.position;
+                float goalY = startY - stepDownAmount;
+                p.y = Mathf.Lerp(p.y, goalY, Time.deltaTime * 2f);
+                transform.position = p;
+            }
+ 
             yield return null;
         }
         animator.SetInteger("State", 5);
